@@ -7,7 +7,7 @@ But you can use it not only for gaming.
 Per example, replace the rotary encoder by a temperature sensor, load the suitable arduino sketch, then you have a beautiful portable weather station!
 
 With this project you can do a workshop and show people how to assembly electronic components and get perfect welds. 
-Please visit the wiki to get the workshop kit.
+Please visit the wiki to get the workshop kit. -> [Wiki](https://github.com/fablabs-ch/nanobud/wiki)
 
 But not only, if you want go further and make different kind of workshops, here some quick ideas:
 - How to load and programm Arduino boards
