@@ -1,5 +1,6 @@
 <img src="https://github.com/fablabs-ch/nanobud/blob/master/pictures/NanoBud_Logo.png"/>
 <img src="https://github.com/fablabs-ch/nanobud/blob/master/pictures/logo_display.JPG" width="200px"/>
+
 # Description
 NanoBud is a simple electronic project created for workshops into FabLabs.
 Basically this project is provided with "Space Invaders" retro game made by makestuffordie.
