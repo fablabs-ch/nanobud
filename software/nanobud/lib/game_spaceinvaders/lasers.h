@@ -53,11 +53,13 @@ public:
         }
     }
 
+    //publis so monsters can access it
+    uint8_t _y[MAX_LASERS];
+    uint8_t _x[MAX_LASERS];
+
 private:
     Sound* sound;
 
-    uint8_t _y[MAX_LASERS];
-    uint8_t _x[MAX_LASERS];
 };
 
 #endif

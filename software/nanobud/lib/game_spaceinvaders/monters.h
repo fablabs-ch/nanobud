@@ -5,6 +5,9 @@
 #include <inputlistener.h>
 #include <U8glib.h>
 
+#include "ship.h"
+#include "lasers.h"
+
 static const uint16_t monsters[] U8G_PROGMEM = {0x0600,0x0F00,0x1F80,0x36C0,0x3FC0,0x0900,0x1680,0x2940,0x0600,0x0F00,0x1F80,0x36C0,0x3FC0,0x0900,0x1080,0x0900,0x2080,0x9120,0xBFA0,0xEEE0,0x7FC0,0x3F80,0x2080,0x4040,0x2080,0x1100,0x3F80,0x6EC0,0xFFE0,0xBFA0,0xA0A0,0x1B00,0x0E00,0x7FC0,0xFFE0,0xCE60,0xFFE0,0x3F80,0x6EC0,0xC060,0x0E00,0x7FC0,0xFFE0,0xCE60,0xFFE0,0x3F80,0x6EC0,0x3180};
 
 class Monsters {
@@ -13,7 +16,15 @@ public:
     enum { BLANK_IDX = 6 };
     enum { MAX_COLS = 8, MAX_ROWS = 4, MON_WIDTH = 16, MON_HEIGHT = 8, MON_HMARGIN = 1 };
 
-    Monsters(const int x, const int y, const int width, const int height, const uint8_t *levelData) {
+    Monsters() {
+
+    }
+
+    void init(Sound* sound, Lasers* lasers, const int displayWidth, const int displayHeight, const int x, const int y, const int width, const int height, const uint8_t *levelData){
+        this->sound = sound;
+        this->lasers = lasers;
+        this->displayWidth=displayWidth;
+        this->displayHeight = displayHeight;
         _x = x;
         _y = y;
         _left = 0;
@@ -25,9 +36,13 @@ public:
         _currSprite = 0;
         _lastUpdate = millis();
         memcpy(_levelData, levelData, MAX_COLS * MAX_ROWS);
+
     }
 
-    void step(unsigned long nowMs) {
+    /**
+    * return true if game over
+    */
+    bool step(unsigned long nowMs) {
         if (nowMs - _lastUpdate >= SPEED) {
           _lastUpdate = nowMs;
           _currSprite ^= 1;
@@ -37,37 +52,41 @@ public:
             _dx = -_dx;
             _y++;
           }
-          if (_x + _right >= screenW) {
-            _x = screenW - _right - 1;
+          if (_x + _right >= this->displayWidth) {
+            _x = this->displayWidth - _right - 1;
             _dx = -_dx;
             _y++;
           }
         }
-        if (_y + _bottom >= PlayerShip::SHIP_Y) {
-          //_y = 0;
-          g_gameState = GAME_OVER;
+        if (_y + _bottom >= (this->displayHeight-PlayerShip::SHIP_H-1)) {
+            return true;
         }
+        return false;
     }
+
     void draw(U8GLIB* display) {
         for (int i = 0; i < _height; i++) {
           for (int j = 0; j < _width; j++) {
             const int idx = _levelData[j + i * MAX_COLS] + _currSprite;
             if (idx < BLANK_IDX) {
-              display.drawXBMP(_x + j * MON_WIDTH, _y + i * (MON_HEIGHT + MON_HMARGIN), MON_WIDTH, MON_HEIGHT, (unsigned char*) (monsters + idx * MON_WIDTH / 2));
+              display->drawXBMP(_x + j * MON_WIDTH, _y + i * (MON_HEIGHT + MON_HMARGIN), MON_WIDTH, MON_HEIGHT, (unsigned char*) (monsters + idx * MON_WIDTH / 2));
             }
           }
         }
     }
 
-    void hitTest() {
+    /**
+    * Return true if win
+    */
+    bool hitTest() {
         bool hit = false;
         for (int i = 0; i < Lasers::MAX_LASERS; i++) {
           // quick fallbacks
-          uint8_t y = lasers._y[i];
+          uint8_t y = lasers->_y[i];
           if ((y == Lasers::INACTIVE_LASER) || (y + Lasers::LASER_H < _y) || (y >= _y + _bottom))
             continue;
 
-          uint8_t x = lasers._x[i];
+          uint8_t x = lasers->_x[i];
           if ((x < _x + _left) || (x >= _x + _right))
             continue;
 
@@ -81,9 +100,9 @@ public:
             continue;
 
           _levelData[col + row * MAX_COLS] = BLANK_IDX;
-          lasers._y[i] = 0xff;
+          lasers->_y[i] = 0xff;
           hit = true;
-          tone(BUZZER_PIN,523,50);
+          this->sound->playEnemyDestroyed();
         }
 
         if (!hit) {
@@ -103,14 +122,19 @@ public:
           }
         }
         if (c0 > c1) {
-          g_gameState = GAME_WIN;
-          return;
+            return true;
         }
         _left = c0 * MON_WIDTH;
         _right = (c1 + 1) * MON_WIDTH;
         _bottom = (r1 + 1) * (MON_HEIGHT + MON_HMARGIN);
+        return false;
     }
 
+private:
+
+    Sound* sound;
+    Lasers* lasers;
+    int displayWidth, displayHeight;
     unsigned long _lastUpdate;
     uint8_t _levelData[MAX_COLS * MAX_ROWS];
     int _width;

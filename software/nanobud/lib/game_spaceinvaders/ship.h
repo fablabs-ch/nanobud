@@ -3,12 +3,10 @@
 
 #include <U8glib.h>
 
-#define SHIP_RAD 6
-#define SHIP_W 13
-#define SHIP_H 6
-
 class PlayerShip {
 public:
+
+    enum { SHIP_RAD = 6, SHIP_W = SHIP_RAD * 2 + 1, SHIP_H = 6 };
 
     PlayerShip() {
 

@@ -32,12 +32,12 @@ void setup(){
 }
 
 void loop(){
-    unsigned long now = millis();
-    unsigned long dtMs = now - lastLoop;
+    unsigned long nowMs = millis();
+    unsigned long dtMs = nowMs - lastLoop;
 
     input.loop(dtMs);
     sound.loop(dtMs);
-    game.loop(dtMs);
+    game.loop(nowMs, dtMs);
 
-    lastLoop = now;
+    lastLoop = nowMs;
 }

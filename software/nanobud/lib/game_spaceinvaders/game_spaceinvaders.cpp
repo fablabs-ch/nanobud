@@ -11,23 +11,27 @@ void GameSpaceInvaders::init(){
 
     this->ship.init(this->displayWidth, this->displayHeight);
     this->lasers.init(this->sound);
+    this->monsters.init(this->sound, &(this->lasers), this->displayWidth, this->displayHeight, 0, 0, 6, 4, level_0);
 
-    this->display->firstPage();
-    do {
-        this->display->drawXBMP(0, 0, this->displayWidth, this->displayHeight, (const uint8_t*) splash);
-    } while (this->display->nextPage());
+    // this->display->firstPage();
+    // do {
+    //     this->display->drawXBMP(0, 0, this->displayWidth, this->displayHeight, (const uint8_t*) splash);
+    // } while (this->display->nextPage());
 }
 
-void GameSpaceInvaders::loop(unsigned long){
+void GameSpaceInvaders::loop(unsigned long nowMs, unsigned long dtMs){
     this->display->firstPage();
     if(this->gameState == GAME_NORMAL){
         do {
             this->ship.draw(this->display);
             this->lasers.draw(this->display);
+            this->monsters.draw(this->display);
+            //TODO Hit tests
         } while (this->display->nextPage());
 
         this->ship.step();
         this->lasers.step();
+        this->monsters.step(nowMs);
     }else{
         // TODO
         do {
@@ -37,13 +41,10 @@ void GameSpaceInvaders::loop(unsigned long){
 }
 
 void GameSpaceInvaders::rotaryEvent(int delta){
-    // this->sound->playEnemyDestroyed();
     this->ship.move(delta);
 }
 
 void GameSpaceInvaders::pressEvent(){
-    // this->lasers.add(this->displayWidth/2, this->displayHeight);
-
     this->lasers.add(this->ship.getX(), this->ship.getY());
 }
 
