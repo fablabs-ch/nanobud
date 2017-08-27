@@ -12,9 +12,7 @@ Sound sound(PIN_BUZZER);
 GameSpaceInvaders game(&display, &sound);
 Input input(PIN_ROTARY_BUTTON, PIN_ROTARY_A, PIN_ROTARY_B, &game);
 
-
 unsigned long lastLoop = 0;
-
 
 void setup(){
   Serial.begin(115200);

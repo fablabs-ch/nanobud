@@ -6,12 +6,15 @@
 
 #define ANTI_REBOUND_MS 50
 #define BUTTON_LONG_PRESS_MS 1000
+
 #define DEBUG_INPUT
 
 #ifdef DEBUG_INPUT
-    #define DEBUG_INPUT_PRINT(x)  Serial.println (x)
+    #define DEBUG_INPUT_PRINT(x)  Serial.print (x)
+    #define DEBUG_INPUT_PRINTLN(x)  Serial.println (x)
 #else
     #define DEBUG_INPUT_PRINT(x)
+    #define DEBUG_INPUT_PRINTLN(x)
 #endif
 
 class Input {

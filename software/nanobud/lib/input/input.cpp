@@ -28,11 +28,9 @@ void Input::loop(unsigned long dtMs){
 	this->checkRotation();
 	this->checkButtonLongPress(dtMs);
 	this->checkButtonNormalPress();
+
 	if(this->antiReboundMs!=0){
-		this->antiReboundMs-=dtMs;
-		if(antiReboundMs<0){
-			this->antiReboundMs = 0;
-		}
+		this->antiReboundMs -= min(dtMs, this->antiReboundMs);
 	}
 }
 
@@ -57,7 +55,7 @@ void Input::checkButtonLongPress(unsigned long dtMs){
 		this->timeButtonDown += dtMs;
 		if(this->timeButtonDown>=BUTTON_LONG_PRESS_MS){
 			this->ignoreNextRelease = true;
-			DEBUG_INPUT_PRINT("Btn long");
+			DEBUG_INPUT_PRINTLN("Btn long");
             if(this->listener){
                 this->listener->longPressEvent();
             }
@@ -68,17 +66,18 @@ void Input::checkButtonLongPress(unsigned long dtMs){
 void Input::checkButtonNormalPress(){
 	if(this->lastButtonPressed!=this->buttonPressed){
 		if(this->buttonPressed){
-			DEBUG_INPUT_PRINT("Btn press");
+			DEBUG_INPUT_PRINTLN("Btn press");
 		}else{
-            DEBUG_INPUT_PRINT("Btn rel");
+            DEBUG_INPUT_PRINTLN("Btn rel");
 			if(!this->ignoreNextRelease){
-				if(antiReboundMs==0){
+				if(this->antiReboundMs==0){
                     if(this->listener){
                         this->listener->pressEvent();
                     }
 					this->antiReboundMs = ANTI_REBOUND_MS;
 				}else{
-					DEBUG_INPUT_PRINT("Btn reboud");
+					DEBUG_INPUT_PRINT("Btn reboud, timeout=");
+                    DEBUG_INPUT_PRINTLN(this->antiReboundMs);
 				}
 			}else{
 				this->ignoreNextRelease = false;
@@ -97,12 +96,12 @@ void Input::checkRotation(){
 	int delta = currEnc-lastEnc;
 	if(delta != 0){
 		if(delta<0){
-            DEBUG_INPUT_PRINT("Rot +");
+            DEBUG_INPUT_PRINTLN("Rot +");
             if(this->listener){
                 this->listener->rotaryEvent(1);
             }
 		}else{
-          DEBUG_INPUT_PRINT("Rot -");
+          DEBUG_INPUT_PRINTLN("Rot -");
           if(this->listener){
               this->listener->rotaryEvent(-1);
           }

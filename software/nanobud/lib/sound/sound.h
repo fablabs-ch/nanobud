@@ -18,11 +18,13 @@
 #define ENEMY_DESTROYED_NOTE_DURATION 2
 #define ENEMY_DESTROYED_MELODY_SIZE 1
 
-#define DEBUG_SOUND
+// #define DEBUG_SOUND
 
 #ifdef DEBUG_SOUND
-    #define DEBUG_SOUND_PRINT(x)  Serial.println (x)
+    #define DEBUG_SOUND_PRINT(x)  Serial.print (x)
+    #define DEBUG_SOUND_PRINTLN(x)  Serial.println (x)
 #else
+    #define DEBUG_SOUND_PRINTLN(x)
     #define DEBUG_SOUND_PRINT(x)
 #endif
 
@@ -48,7 +50,7 @@ private:
 
     int buttonMelodyNotes[BUTTON_MELODY_SIZE] = { BUTTON_MELODY };
     int buttonMelodyNotesDurations[BUTTON_MELODY] = { BUTTON_NOTE_DURATION };
-    int buttonMelodySize = BUTTON_MELODY;
+    int buttonMelodySize = BUTTON_MELODY_SIZE;
 
     int enemyDestroyedMelodyNotes[ENEMY_DESTROYED_MELODY_SIZE] = { ENEMY_DESTROYED_MELODY };
     int enemyDestroyedMelodyNotesDurations[ENEMY_DESTROYED_MELODY_SIZE] = { ENEMY_DESTROYED_NOTE_DURATION };
