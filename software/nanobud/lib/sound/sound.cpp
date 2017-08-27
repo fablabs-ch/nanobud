@@ -10,15 +10,13 @@ void Sound::init(){
 
 void Sound::loop(unsigned long dtMs){
     if(this->playing){
-        this->currentNoteDuration += dtMs;
         if(this->currentNoteDuration>=this->nextNote){
-			DEBUG_SOUND_PRINTLN("End of note");
+			DEBUG_SOUND_PRINT("End of note index=");
+			DEBUG_SOUND_PRINTLN(this->currentMelodyIndex);
 			this->currentMelodyIndex++;
 			this->nextNote = this->currentMelodyNotesDuration[this->currentMelodyIndex]*NOTE_DURATION_TO_MS;
 			this->currentNoteDuration = 0;
 
-			DEBUG_SOUND_PRINT("index=");
-			DEBUG_SOUND_PRINTLN(this->currentMelodyIndex);
             if(this->currentMelodyIndex>=this->currentMelodySize){
 				DEBUG_SOUND_PRINTLN("End of melody");
                 this->playing = false;
@@ -28,6 +26,7 @@ void Sound::loop(unsigned long dtMs){
                 tone(this->pinBuzzer, this->currentMelodyNotes[this->currentMelodyIndex]);
             }
         }
+	    this->currentNoteDuration += dtMs;
     }
 }
 
@@ -44,8 +43,6 @@ void Sound::playEndMusic(){
 }
 
 void Sound::playMelody(int* melody, int* duration, int size){
-	DEBUG_SOUND_PRINT("Start playing melody, size=");
-	DEBUG_SOUND_PRINTLN(size);
     this->currentMelodyNotes = melody;
 	this->currentMelodyNotesDuration = duration;
     this->currentMelodySize = size;
@@ -56,4 +53,11 @@ void Sound::playMelody(int* melody, int* duration, int size){
 	//play first note
 	tone(this->pinBuzzer, this->currentMelodyNotes[this->currentMelodyIndex]);
 	this->nextNote = this->currentMelodyNotesDuration[this->currentMelodyIndex]*NOTE_DURATION_TO_MS;
+
+		DEBUG_SOUND_PRINT("Start playing melody, size=");
+		DEBUG_SOUND_PRINT(size);
+		DEBUG_SOUND_PRINT(" first duration=");
+		DEBUG_SOUND_PRINT(this->nextNote);
+		DEBUG_SOUND_PRINTLN();
+
 }

@@ -25,6 +25,8 @@ public:
 
     void loop(unsigned long);
 
+    void changeDetected();
+
 private:
     int pinButton;
     int pinRotaryA;
@@ -41,7 +43,6 @@ private:
 
     unsigned long antiReboundMs;
 
-    void readSerial();
     void updateEncoder();
     void checkButtonLongPress(unsigned long);
     void checkButtonNormalPress();

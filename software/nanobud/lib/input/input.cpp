@@ -24,14 +24,17 @@ void Input::init(){
 
 
 void Input::loop(unsigned long dtMs){
-	this->updateEncoder();
-	this->checkRotation();
 	this->checkButtonLongPress(dtMs);
 	this->checkButtonNormalPress();
 
 	if(this->antiReboundMs!=0){
 		this->antiReboundMs -= min(dtMs, this->antiReboundMs);
 	}
+}
+
+void Input::changeDetected(){
+    this->updateEncoder();
+    this->checkRotation();
 }
 
 void Input::updateEncoder(){
