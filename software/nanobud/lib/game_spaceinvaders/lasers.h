@@ -7,8 +7,12 @@ class Lasers {
 public:
     enum { LASER_H = 3, MAX_LASERS = 4, INACTIVE_LASER = 0xff };
 
-    Lasers() {
+    Lasers(){
         reset();
+    }
+
+    void init(Sound* sound){
+        this->sound = sound;
     }
 
     void reset() {
@@ -20,6 +24,7 @@ public:
             if (_y[i] == INACTIVE_LASER) {
                 _y[i] = y;
                 _x[i] = x;
+                this->sound->playButtonPressed();
                 break;
             }
         }
@@ -47,6 +52,9 @@ public:
             _y[i] = y;
         }
     }
+
+private:
+    Sound* sound;
 
     uint8_t _y[MAX_LASERS];
     uint8_t _x[MAX_LASERS];

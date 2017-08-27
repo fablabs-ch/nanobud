@@ -99,14 +99,14 @@ void Input::checkRotation(){
 	int delta = currEnc-lastEnc;
 	if(delta != 0){
 		if(delta<0){
-            DEBUG_INPUT_PRINTLN("Rot +");
+            DEBUG_INPUT_PRINTLN("Rot -");
             if(this->listener){
-                this->listener->rotaryEvent(1);
+                this->listener->rotaryEvent(-1);
             }
 		}else{
-          DEBUG_INPUT_PRINTLN("Rot -");
+          DEBUG_INPUT_PRINTLN("Rot +");
           if(this->listener){
-              this->listener->rotaryEvent(-1);
+              this->listener->rotaryEvent(1);
           }
 		}
 		this->lastEncoderValue = this->encoderValue;
