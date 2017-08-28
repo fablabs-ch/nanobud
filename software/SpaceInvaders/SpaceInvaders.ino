@@ -1,16 +1,16 @@
-//               ___                            __    
-//       __  __ /   |   _____ _____ ____ _ ____/ /___ 
+//               ___                            __
+//       __  __ /   |   _____ _____ ____ _ ____/ /___
 //      / / / // /| |  / ___// ___// __ `// __  // _ \
 //     / /_/ // ___ | / /   / /__ / /_/ // /_/ //  __/
-//     \__,_//_/  |_|/_/    \___/ \__,_/ \__,_/ \___/ 
+//     \__,_//_/  |_|/_/    \___/ \__,_/ \__,_/ \___/
 //
 //              Created by Yair Kapach 2015
-//        For uArcade build details, please visit: 
+//        For uArcade build details, please visit:
 //         http://www.youtube.com/user/microstrat
 //           http://makestuffordie.blogspot.com/
 //
 //  You may do whatever you want with this code, as long as:
-//    a. share it and keep it FREE. 
+//    a. share it and keep it FREE.
 //    b. keep the original credits.
 
 #include <U8glib.h>
@@ -86,7 +86,7 @@ void doEncoderA() { // Interrupt on A changing state
   if (rotating)
     delay(1);  // wait a little until the bouncing is done
 
-  // Test transition, did things really change? 
+  // Test transition, did things really change?
   if (digitalRead(ENCODER_PIN_RIGHT) != A_set) {  // debounce once more
     A_set = !A_set;
     // adjust counter + if A leads B
@@ -126,7 +126,7 @@ public:
 
   Lasers() { reset(); }
 
-  void reset() { 
+  void reset() {
     memset(_y, INACTIVE_LASER, MAX_LASERS);
     //_lastStep = millis();
   }
@@ -153,7 +153,7 @@ public:
   void step() {
 //    if (millis() - _lastStep < 50)
 //      return;
-//    
+//
 //    _lastStep = millis();
 
     for (int i = 0; i < MAX_LASERS; i++) {
@@ -181,7 +181,7 @@ public:
   enum { SHIP_RAD = 6, SHIP_W = SHIP_RAD * 2 + 1, SHIP_H = 6, SHIP_Y = screenH - 1 - SHIP_H };
 
   PlayerShip() : _x(screenW / 2) {}
-  
+
   void draw() {
     u8g.drawHLine(_x - 1, SHIP_Y, 3);
     u8g.drawHLine(_x - 1, SHIP_Y + 1, 3);
@@ -190,7 +190,7 @@ public:
     u8g.drawHLine(_x - SHIP_RAD, SHIP_Y + 4, SHIP_W);
     u8g.drawHLine(_x - SHIP_RAD, SHIP_Y + 5, SHIP_W);
   }
-  
+
   void step() {
     const bool fire = checkBtn();
     _x = screenW / 2 + (encoderPos - 127) * 4;
@@ -264,7 +264,7 @@ public:
       uint8_t x = lasers._x[i];
       if ((x < _x + _left) || (x >= _x + _right))
         continue;
-      
+
       if (((x - _x) & 0xf) > 12) // hack
         continue;
 
@@ -320,7 +320,7 @@ public:
 
 const uint8_t level_0[] = { 0, 0, 0, 0, 0, 0, 0xff, 0xff,
                             2, 2, 2, 2, 2, 2, 0xff, 0xff,
-                            4, 4, 4, 4, 4, 4, 0xff, 0xff, 
+                            4, 4, 4, 4, 4, 4, 0xff, 0xff,
                             4, 4, 4, 4, 4, 4, 0xff, 0xff};
 
 Monsters mon(0, 0, 6, 4, level_0);
@@ -336,7 +336,7 @@ void setup(void) {
   do {
     u8g.firstPage();
     do {
-      u8g.drawXBMP(0, 0, screenW, screenH, (const uint8_t*) splash);
+     u8g.drawXBMP(0, 0, screenW, screenH, (const uint8_t*) splash);
     } while (u8g.nextPage());
   } while (digitalRead(ENCODER_PIN_FIRE) == HIGH);
 }
@@ -368,14 +368,14 @@ void loop(void) {
           //e.g. quarter note = 1000 / 4, eighth note = 1000/8, etc.
           int noteDuration = 1000 / noteDurations[thisNote];
           tone(11, melody[thisNote], noteDuration);
-      
+
           // to distinguish the notes, set a minimum time between them.
           // the note's duration + 30% seems to work well:
           int pauseBetweenNotes = noteDuration * 1.30;
           delay(pauseBetweenNotes);
           // stop the tone playing:
           noTone(8);
-        }   
+        }
         resetFunc();
       }
     } while (u8g.nextPage());
