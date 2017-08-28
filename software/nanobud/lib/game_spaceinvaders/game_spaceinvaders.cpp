@@ -35,18 +35,18 @@ void GameSpaceInvaders::loop(unsigned long dtMs){
         this->lasers.step(dtMs);
         if(this->monsters.step(dtMs)){
             DEBUG_GAME_PRINTLN("Game over");
+            this->sound->playEndMusic();
             this->gameState = GAME_OVER;
         }
         if(this->monsters.hitTest()){
             DEBUG_GAME_PRINTLN("Game win");
+            this->sound->playEndMusic();
             this->gameState = GAME_WIN;
         }
     }else if(gameState == GAME_OVER){
         this->display->drawStr(26, 33, "Game over");
-        this->sound->playEndMusic();
     }else{
         this->display->drawStr(26, 33, "Game win");
-        this->sound->playEndMusic();
     }
 }
 
