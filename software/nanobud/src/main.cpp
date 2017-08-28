@@ -37,7 +37,7 @@ void loop(){
 
     input.loop(dtMs);
     sound.loop(dtMs);
-    game.loop(nowMs, dtMs);
+    game.loop(dtMs);
 
     lastLoop = nowMs;
 }

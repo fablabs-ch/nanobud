@@ -39,17 +39,21 @@ public:
         }
     }
 
-    void step() {
-        for (int i = 0; i < MAX_LASERS; i++) {
-            uint8_t y = _y[i];
-            if (y != INACTIVE_LASER) {
-                if (y < 2) {
-                    y = INACTIVE_LASER;
-                } else {
-                    y -= 2;
+    void step(unsigned long dtMs) {
+        this->nextMove -= min(dtMs, this->nextMove);
+        if(this->nextMove==0){
+            this->nextMove = 50;
+            for (int i = 0; i < MAX_LASERS; i++) {
+                uint8_t y = _y[i];
+                if (y != INACTIVE_LASER) {
+                    if (y < 2) {
+                        y = INACTIVE_LASER;
+                    } else {
+                        y -= 1;
+                    }
                 }
+                _y[i] = y;
             }
-            _y[i] = y;
         }
     }
 
@@ -59,6 +63,7 @@ public:
 
 private:
     Sound* sound;
+    unsigned long nextMove = 0;
 
 };
 

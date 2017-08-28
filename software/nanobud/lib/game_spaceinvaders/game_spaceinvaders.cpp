@@ -19,24 +19,34 @@ void GameSpaceInvaders::init(){
     // } while (this->display->nextPage());
 }
 
-void GameSpaceInvaders::loop(unsigned long nowMs, unsigned long dtMs){
-    this->display->firstPage();
+void GameSpaceInvaders::loop(unsigned long dtMs){
+    if(!this->display->nextPage()){
+        this->display->firstPage();
+    }
     if(this->gameState == GAME_NORMAL){
-        do {
+        // do {
             this->ship.draw(this->display);
             this->lasers.draw(this->display);
             this->monsters.draw(this->display);
             //TODO Hit tests
-        } while (this->display->nextPage());
+        // } while (this->display->nextPage());
 
         this->ship.step();
-        this->lasers.step();
-        this->monsters.step(nowMs);
+        this->lasers.step(dtMs);
+        if(this->monsters.step(dtMs)){
+            DEBUG_GAME_PRINTLN("Game over");
+            this->gameState = GAME_OVER;
+        }
+        if(this->monsters.hitTest()){
+            DEBUG_GAME_PRINTLN("Game win");
+            this->gameState = GAME_WIN;
+        }
+    }else if(gameState == GAME_OVER){
+        this->display->drawStr(26, 33, "Game over");
+        this->sound->playEndMusic();
     }else{
-        // TODO
-        do {
-            this->display->drawStr(26, 33, "TODO");
-        } while (this->display->nextPage());
+        this->display->drawStr(26, 33, "Game win");
+        this->sound->playEndMusic();
     }
 }
 
