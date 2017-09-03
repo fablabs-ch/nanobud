@@ -23,9 +23,9 @@ void Input::init(){
 }
 
 
-void Input::loop(unsigned long dtMs){
-	this->checkButtonLongPress(dtMs);
-	this->checkButtonNormalPress();
+void Input::loop(unsigned long nowMs, unsigned long dtMs){
+	this->checkButtonLongPress(nowMs, dtMs);
+	this->checkButtonNormalPress(nowMs);
 
 	if(this->antiReboundMs!=0){
 		this->antiReboundMs -= min(dtMs, this->antiReboundMs);
@@ -34,7 +34,7 @@ void Input::loop(unsigned long dtMs){
 
 void Input::changeDetected(){
     this->updateEncoder();
-    this->checkRotation();
+    this->checkRotation(millis());
 }
 
 void Input::updateEncoder(){
@@ -51,7 +51,7 @@ void Input::updateEncoder(){
   this->lastEncoded = encoded; //store this value for next time
 }
 
-void Input::checkButtonLongPress(unsigned long dtMs){
+void Input::checkButtonLongPress(unsigned long nowMs, unsigned long dtMs){
 	this->buttonPressed = digitalRead(this->pinButton) == LOW;
 
 	if(this->buttonPressed && !this->ignoreNextRelease){
@@ -60,13 +60,13 @@ void Input::checkButtonLongPress(unsigned long dtMs){
 			this->ignoreNextRelease = true;
 			DEBUG_INPUT_PRINTLN("Btn long");
             if(this->listener){
-                this->listener->longPressEvent();
+                this->listener->longPressEvent(nowMs);
             }
 		}
 	}
 }
 
-void Input::checkButtonNormalPress(){
+void Input::checkButtonNormalPress(unsigned long nowMs){
 	if(this->lastButtonPressed!=this->buttonPressed){
 		if(this->buttonPressed){
 			DEBUG_INPUT_PRINTLN("Btn press");
@@ -75,7 +75,7 @@ void Input::checkButtonNormalPress(){
 			if(!this->ignoreNextRelease){
 				if(this->antiReboundMs==0){
                     if(this->listener){
-                        this->listener->pressEvent();
+                        this->listener->pressEvent(nowMs);
                     }
 					this->antiReboundMs = ANTI_REBOUND_MS;
 				}else{
@@ -91,7 +91,7 @@ void Input::checkButtonNormalPress(){
 	}
 }
 
-void Input::checkRotation(){
+void Input::checkRotation(unsigned long nowMs){
 	//divide by 4 to match tics of the rotary encoder
 	int lastEnc = this->lastEncoderValue>>2;
 	int currEnc = this->encoderValue>>2;
@@ -101,12 +101,12 @@ void Input::checkRotation(){
 		if(delta<0){
             DEBUG_INPUT_PRINTLN("Rot -");
             if(this->listener){
-                this->listener->rotaryEvent(-1);
+                this->listener->rotaryEvent(-1, nowMs);
             }
 		}else{
           DEBUG_INPUT_PRINTLN("Rot +");
           if(this->listener){
-              this->listener->rotaryEvent(1);
+              this->listener->rotaryEvent(1, nowMs);
           }
 		}
 		this->lastEncoderValue = this->encoderValue;

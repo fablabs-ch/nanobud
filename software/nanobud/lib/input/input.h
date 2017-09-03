@@ -23,7 +23,7 @@ public:
 
     void init();
 
-    void loop(unsigned long);
+    void loop(unsigned long nowMs, unsigned long dtMs);
 
     void changeDetected();
 
@@ -44,9 +44,9 @@ private:
     unsigned long antiReboundMs;
 
     void updateEncoder();
-    void checkButtonLongPress(unsigned long);
-    void checkButtonNormalPress();
-    void checkRotation();
+    void checkButtonLongPress(unsigned long nowMs, unsigned long dtMs);
+    void checkButtonNormalPress(unsigned long nowMs);
+    void checkRotation(unsigned long nowMs);
 
 };
 #endif

@@ -4,9 +4,9 @@
 
 class InputListener {
 public:
-    virtual void rotaryEvent(int delta) = 0;
-    virtual void pressEvent() = 0;
-    virtual void longPressEvent() = 0;
+    virtual void rotaryEvent(int delta, unsigned long nowMs) = 0;
+    virtual void pressEvent(unsigned long nowMs) = 0;
+    virtual void longPressEvent(unsigned long nowMs) = 0;
 };
 
 #endif

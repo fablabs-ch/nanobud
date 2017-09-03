@@ -35,9 +35,9 @@ void loop(){
     unsigned long nowMs = millis();
     unsigned long dtMs = nowMs - lastLoop;
 
-    input.loop(dtMs);
+    input.loop(nowMs, dtMs);
     sound.loop(dtMs);
-    game.loop(dtMs);
+    game.loop(nowMs, dtMs);
 
     lastLoop = nowMs;
 }

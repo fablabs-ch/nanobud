@@ -34,11 +34,11 @@ public:
     GameSpaceInvaders(U8GLIB* display, Sound* sound);
 
     void init();
-    void loop(unsigned long dtMs);
+    void loop(unsigned long nowMs, unsigned long dtMs);
 
-    void rotaryEvent(int delta);
-    void pressEvent();
-    void longPressEvent();
+    void rotaryEvent(int delta, unsigned long nowMs);
+    void pressEvent(unsigned long nowMs);
+    void longPressEvent(unsigned long nowMs);
 
 private:
     U8GLIB* display;
@@ -51,7 +51,10 @@ private:
     int displayWidth;
     int displayHeight;
 
+    unsigned long gameStateLastChange;
     enum GameSpaceInvadersState gameState = GAME_NORMAL;
+
+    void setGameState(enum GameSpaceInvadersState gameState, unsigned long nowMS);
 
 };
 #endif
