@@ -11,9 +11,9 @@ void GameSpaceInvaders::init(){
 
     this->ship.init(this->displayWidth, this->displayHeight);
     this->lasers.init(this->sound);
-    this->monsters.init(this->sound, &(this->lasers), this->displayWidth, this->displayHeight, 0, 0, 6, 4);
+    this->monsters.init(this->sound, &(this->lasers), this->displayWidth, this->displayHeight);
 
-    this->monsters.initLevel(level_0, 100);
+    this->monsters.initLevel(level_0, 0, 0, 6, 4, 100);
 
     this->display->setFont(u8g_font_unifont);
 
@@ -27,7 +27,10 @@ void GameSpaceInvaders::loop(unsigned long nowMs, unsigned long dtMs){
     if(!this->display->nextPage()){
         this->display->firstPage();
     }
-    if(this->gameState == GAME_NORMAL){
+    if(this->gameState == GAME_INIT){
+        this->display->drawStr(30, 15, "TODO");
+        this->displayRestart();
+    }else if(this->gameState == GAME_NORMAL){
         // do {
             this->ship.draw(this->display);
             this->lasers.draw(this->display);
@@ -49,13 +52,16 @@ void GameSpaceInvaders::loop(unsigned long nowMs, unsigned long dtMs){
         }
     }else if(gameState == GAME_OVER){
         this->display->drawStr(30, 15, "Game over");
-        this->display->drawStr(10, 45, "Long press for");
-        this->display->drawStr(35, 60, "restart");
+        this->displayRestart();
     }else{
         this->display->drawStr(30, 15, "Game win");
-        this->display->drawStr(10, 45, "Long press for");
-        this->display->drawStr(35, 60, "restart");
+        this->displayRestart();
     }
+}
+
+void GameSpaceInvaders::displayRestart(){
+    this->display->drawStr(10, 45, "Long press for");
+    this->display->drawStr(35, 60, "restart");
 }
 
 void GameSpaceInvaders::rotaryEvent(int delta, unsigned long nowMs){
@@ -67,7 +73,8 @@ void GameSpaceInvaders::pressEvent(unsigned long nowMs){
 }
 
 void GameSpaceInvaders::longPressEvent(unsigned long nowMs){
-    this->monsters.initLevel(level_0, 100);
+    this->monsters.initLevel(level_0, 0, 0, 6, 4, 100);
+    this->lasers.reset();
     this->setGameState(GAME_NORMAL, nowMs);
     // this->sound->playEndMusic();
 }

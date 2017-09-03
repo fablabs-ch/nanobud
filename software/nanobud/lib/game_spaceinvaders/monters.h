@@ -19,11 +19,15 @@ public:
 
     }
 
-    void init(Sound* sound, Lasers* lasers, const int displayWidth, const int displayHeight, const int x, const int y, const int width, const int height){
+    void init(Sound* sound, Lasers* lasers, const int displayWidth, const int displayHeight){
         this->sound = sound;
         this->lasers = lasers;
         this->displayWidth=displayWidth;
         this->displayHeight = displayHeight;
+    }
+
+    void initLevel(const uint8_t *levelData, const int x, const int y, const int width, const int height, int speed=100){
+        this->speed = speed;
         _x = x;
         _y = y;
         _left = 0;
@@ -34,11 +38,6 @@ public:
         _height = height;
         _currSprite = 0;
         this->nextMove = 0;
-    }
-
-    void initLevel(const uint8_t *levelData, int speed=100){
-        this->speed = speed;
-        _dx = 1;
         memcpy(_levelData, levelData, MAX_COLS * MAX_ROWS);
     }
 
