@@ -28,7 +28,6 @@ void GameSpaceInvaders::loop(unsigned long nowMs, unsigned long dtMs){
         this->display->firstPage();
     }
     if(this->gameState == GAME_INIT){
-        this->display->drawStr(30, 15, "TODO");
         this->displayRestart();
     }else if(this->gameState == GAME_NORMAL){
         // do {
@@ -60,26 +59,41 @@ void GameSpaceInvaders::loop(unsigned long nowMs, unsigned long dtMs){
 }
 
 void GameSpaceInvaders::displayRestart(){
-    this->display->drawStr(10, 45, "Long press for");
+    this->display->drawStr(10, 45, "Press top for");
     this->display->drawStr(35, 60, "restart");
 }
 
-void GameSpaceInvaders::rotaryEvent(int delta, unsigned long nowMs){
-    this->ship.move(delta);
+void GameSpaceInvaders::move(int delta){
+     this->ship.move(delta);
 }
 
-void GameSpaceInvaders::pressEvent(unsigned long nowMs){
-    this->lasers.add(this->ship.getX(), this->ship.getY());
-}
-
-void GameSpaceInvaders::longPressEvent(unsigned long nowMs){
-    this->monsters.initLevel(level_0, 0, 0, 6, 4, 100);
-    this->lasers.reset();
-    this->setGameState(GAME_NORMAL, nowMs);
-    // this->sound->playEndMusic();
+void GameSpaceInvaders::fire(){
+     this->lasers.add(this->ship.getX(), this->ship.getY());
 }
 
 void GameSpaceInvaders::setGameState(enum GameSpaceInvadersState gameState, unsigned long nowMs){
     this->gameStateLastChange = nowMs;
     this->gameState = gameState;
 }
+
+void GameSpaceInvaders::repeatPressEvent(Button button, unsigned long nowMs){
+    switch (button) {
+        case CENTER:
+             this->fire();
+        break;
+        case RIGHT:
+            this->move(5);
+            break;
+        case LEFT:
+            this->move(-5);
+            break;
+        case TOP:
+            this->monsters.initLevel(level_0, 0, 0, 6, 4, 100);
+            this->lasers.reset();
+            this->setGameState(GAME_NORMAL, nowMs);
+
+    }
+}
+
+
+void GameSpaceInvaders::pressEvent(Button button, unsigned long nowMs){}

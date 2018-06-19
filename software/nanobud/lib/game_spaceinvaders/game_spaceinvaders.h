@@ -13,7 +13,7 @@ const uint8_t level_0[] = { 0, 0, 0, 0, 0, 0, 0xff, 0xff,
                             4, 4, 4, 4, 4, 4, 0xff, 0xff,
                             4, 4, 4, 4, 4, 4, 0xff, 0xff};
 
-#define DEBUG_GAME
+// #define DEBUG_GAME
 
 #ifdef DEBUG_GAME
     #define DEBUG_GAME_PRINT(x)  Serial.print (x)
@@ -36,9 +36,10 @@ public:
     void init();
     void loop(unsigned long nowMs, unsigned long dtMs);
 
-    void rotaryEvent(int delta, unsigned long nowMs);
-    void pressEvent(unsigned long nowMs);
-    void longPressEvent(unsigned long nowMs);
+
+    void repeatPressEvent(Button button, unsigned long nowMs);
+
+    void pressEvent(Button button, unsigned long nowMs);
 
 private:
     U8GLIB* display;
@@ -56,6 +57,9 @@ private:
 
     void setGameState(enum GameSpaceInvadersState gameState, unsigned long nowMS);
     void displayRestart();
+
+    void fire();
+    void move(int delta);
 
 };
 #endif

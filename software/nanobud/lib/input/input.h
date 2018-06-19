@@ -3,9 +3,7 @@
 
 #include <Arduino.h>
 #include <inputListener.h>
-
-#define ANTI_REBOUND_MS 50
-#define BUTTON_LONG_PRESS_MS 1000
+#include <input-button.h>
 
 // #define DEBUG_INPUT
 
@@ -19,7 +17,7 @@
 
 class Input {
 public:
-    Input(int pinButton, int pinRotaryA, int pinRotaryB, InputListener* listener=0);
+    Input(int pinCenter, int pintLeft, int pinRight, int pinTop, int pinBottom, InputListener* listener=0);
 
     void init();
 
@@ -28,25 +26,24 @@ public:
     void changeDetected();
 
 private:
-    int pinButton;
-    int pinRotaryA;
-    int pinRotaryB;
+    InputButton buttons[5];
+
+    int pinCenter;
+    int pintLeft;
+    int pinRight;
+    int pinTop;
+    int pinBottom;
     InputListener* listener;
-
-    volatile int lastEncoded;
-    volatile long encoderValue;
-    long lastEncoderValue;
-    bool buttonPressed;
-    bool lastButtonPressed;
-    unsigned long timeButtonDown;
-    bool ignoreNextRelease;
-
-    unsigned long antiReboundMs;
-
-    void updateEncoder();
-    void checkButtonLongPress(unsigned long nowMs, unsigned long dtMs);
-    void checkButtonNormalPress(unsigned long nowMs);
-    void checkRotation(unsigned long nowMs);
+    //
+    // bool buttonPressed;
+    // bool lastButtonPressed;
+    // unsigned long timeButtonDown;
+    // bool ignoreNextRelease;
+    //
+    // unsigned long antiReboundMs;
+    //
+    // void checkButtonLongPress(unsigned long nowMs, unsigned long dtMs);
+    // void checkButtonNormalPress(unsigned long nowMs);
 
 };
 #endif
