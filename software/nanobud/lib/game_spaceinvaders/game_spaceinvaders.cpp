@@ -1,7 +1,7 @@
 #include "game_spaceinvaders.h"
 
-GameSpaceInvaders::GameSpaceInvaders(U8GLIB* display, Sound* sound)
- : display(display), sound(sound){
+GameSpaceInvaders::GameSpaceInvaders(U8GLIB* display, Sound* sound, Vibrator* vibrator)
+ : display(display), sound(sound), vibrator(vibrator){
 
 }
 
@@ -10,8 +10,8 @@ void GameSpaceInvaders::init(){
     this->displayHeight = this->display->getHeight();
 
     this->ship.init(this->displayWidth, this->displayHeight);
-    this->lasers.init(this->sound);
-    this->monsters.init(this->sound, &(this->lasers), this->displayWidth, this->displayHeight);
+    this->lasers.init(this->sound, this->vibrator);
+    this->monsters.init(this->sound, this->vibrator, &(this->lasers), this->displayWidth, this->displayHeight);
 
     this->monsters.initLevel(level_0, 0, 0, 6, 4, 100);
 
@@ -60,7 +60,7 @@ void GameSpaceInvaders::loop(unsigned long nowMs, unsigned long dtMs){
 
 void GameSpaceInvaders::displayRestart(){
     this->display->drawStr(10, 45, "Press top for");
-    this->display->drawStr(35, 60, "restart");
+    this->display->drawStr(35, 60, "restart !!");
 }
 
 void GameSpaceInvaders::move(int delta){

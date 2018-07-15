@@ -3,6 +3,7 @@
 
 #include <Arduino.h>
 #include <sound.h>
+#include <vibrator.h>
 #include <inputlistener.h>
 #include <U8glib.h>
 
@@ -31,7 +32,7 @@ enum GameSpaceInvadersState { GAME_INIT, GAME_NORMAL, GAME_WIN, GAME_OVER };
 
 class GameSpaceInvaders : public InputListener {
 public:
-    GameSpaceInvaders(U8GLIB* display, Sound* sound);
+    GameSpaceInvaders(U8GLIB* display, Sound* sound, Vibrator* vibrator);
 
     void init();
     void loop(unsigned long nowMs, unsigned long dtMs);
@@ -44,6 +45,7 @@ public:
 private:
     U8GLIB* display;
     Sound* sound;
+    Vibrator* vibrator;
 
     Lasers lasers;
     PlayerShip ship;

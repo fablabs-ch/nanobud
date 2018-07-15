@@ -11,8 +11,9 @@ public:
         reset();
     }
 
-    void init(Sound* sound){
+    void init(Sound* sound, Vibrator* vibrator){
         this->sound = sound;
+        this->vibrator = vibrator;
     }
 
     void reset() {
@@ -25,6 +26,7 @@ public:
                 _y[i] = y;
                 _x[i] = x;
                 this->sound->playButtonPressed();
+                this->vibrator->playButtonPressed();
                 break;
             }
         }
@@ -63,6 +65,7 @@ public:
 
 private:
     Sound* sound;
+    Vibrator* vibrator;
     unsigned long nextMove = 0;
 
 };

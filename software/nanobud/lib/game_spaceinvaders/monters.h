@@ -19,8 +19,9 @@ public:
 
     }
 
-    void init(Sound* sound, Lasers* lasers, const int displayWidth, const int displayHeight){
+    void init(Sound* sound, Vibrator* vibrator, Lasers* lasers, const int displayWidth, const int displayHeight){
         this->sound = sound;
+        this->vibrator = vibrator;
         this->lasers = lasers;
         this->displayWidth=displayWidth;
         this->displayHeight = displayHeight;
@@ -111,6 +112,7 @@ public:
             lasers->_y[i] = 0xff;
             hit = true;
             this->sound->playEnemyDestroyed();
+            this->vibrator->playEnemyDestroyed();
         }
 
         if (!hit) {
@@ -141,6 +143,7 @@ public:
 private:
 
     Sound* sound;
+    Vibrator* vibrator;
     Lasers* lasers;
     int displayWidth, displayHeight;
     unsigned long nextMove;

@@ -1,6 +1,6 @@
 
 
-
+#define PIN_VIBRATOR 8
 #define PIN_BUZZER 11
 #define PIN_CENTER 6
 #define PIN_RIGHT 4
