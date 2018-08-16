@@ -94,6 +94,7 @@ void GameSpaceInvaders::repeatPressEvent(Button button, unsigned long nowMs)
     {
         switch (button)
         {
+        case TOP:
         case CENTER:
             this->fire();
             break;
