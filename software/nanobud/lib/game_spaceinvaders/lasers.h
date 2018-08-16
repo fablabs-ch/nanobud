@@ -25,7 +25,7 @@ public:
             if (_y[i] == INACTIVE_LASER) {
                 _y[i] = y;
                 _x[i] = x;
-                this->sound->playButtonPressed();
+                // this->sound->playButtonPressed();
                 this->vibrator->playButtonPressed();
                 break;
             }
