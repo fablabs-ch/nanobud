@@ -28,7 +28,7 @@ const uint8_t level_0[] = { 0, 0, 0, 0, 0, 0, 0xff, 0xff,
 #include "ship.h"
 #include "monters.h"
 
-enum GameSpaceInvadersState { GAME_INIT, GAME_NORMAL, GAME_WIN, GAME_OVER };
+enum GameSpaceInvadersState { GAME_INIT, GAME_SHOW_LEVEL, GAME_NORMAL, GAME_WIN, GAME_OVER };
 
 class GameSpaceInvaders : public InputListener {
 public:
@@ -54,11 +54,14 @@ private:
     int displayWidth;
     int displayHeight;
 
+    int level = 1;
+
     unsigned long gameStateLastChange;
     enum GameSpaceInvadersState gameState = GAME_INIT;
 
     void setGameState(enum GameSpaceInvadersState gameState, unsigned long nowMS);
     void displayRestart();
+    void displayLevel();
 
     void fire();
     void move(int delta);

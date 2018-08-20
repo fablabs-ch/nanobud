@@ -27,8 +27,8 @@ public:
         this->displayHeight = displayHeight;
     }
 
-    void initLevel(const uint8_t *levelData, const int x, const int y, const int width, const int height, int speed=100){
-        this->speed = speed;
+    void initLevel(const uint8_t *levelData, const int x, const int y, const int width, const int height, int delayMs=100){
+        this->delayMs = delayMs < 0 ? 0 : delayMs;
         _x = x;
         _y = y;
         _left = 0;
@@ -48,7 +48,7 @@ public:
     bool step(unsigned long dtMs) {
         this->nextMove -= min(dtMs, this->nextMove);
         if(this->nextMove==0){
-            this->nextMove = this->speed;
+            this->nextMove = this->delayMs;
 
             _currSprite ^= 1;
             _x += _dx;
@@ -157,7 +157,7 @@ private:
     int _bottom;
     int _dx;
     uint8_t _currSprite;
-    int speed;
+    int delayMs;
 };
 
 #endif

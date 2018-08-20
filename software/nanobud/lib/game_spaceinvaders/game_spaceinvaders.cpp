@@ -29,14 +29,15 @@ void GameSpaceInvaders::loop(unsigned long nowMs, unsigned long dtMs)
     {
         this->displayRestart();
     }
+    else if (this->gameState == GAME_SHOW_LEVEL)
+    {
+        this->displayLevel();
+    }
     else if (this->gameState == GAME_NORMAL)
     {
-        // do {
         this->ship.draw(this->display);
         this->lasers.draw(this->display);
         this->monsters.draw(this->display);
-        //TODO Hit tests
-        // } while (this->display->nextPage());
 
         this->ship.step();
         this->lasers.step(dtMs);
@@ -51,6 +52,7 @@ void GameSpaceInvaders::loop(unsigned long nowMs, unsigned long dtMs)
             DEBUG_GAME_PRINTLN("Game win");
             this->sound->playEndMusic();
             this->setGameState(GAME_WIN, nowMs);
+            this->level++;
         }
     }
     else if (gameState == GAME_OVER)
@@ -65,10 +67,13 @@ void GameSpaceInvaders::loop(unsigned long nowMs, unsigned long dtMs)
 
 void GameSpaceInvaders::displayRestart()
 {
-    // this->display->drawStr(10, 45, "Press for");
-    // this->display->drawStr(35, 60, "restart !!");
-
     this->display->drawXBMP(0, 0, this->displayWidth, this->displayHeight, (const uint8_t *)splash);
+}
+
+void GameSpaceInvaders::displayLevel()
+{
+    this->display->drawStr(45, 20, "Level");
+    this->display->drawStr(60, 40, String(this->level).c_str());
 }
 
 void GameSpaceInvaders::move(int delta)
@@ -110,9 +115,13 @@ void GameSpaceInvaders::repeatPressEvent(Button button, unsigned long nowMs)
 
 void GameSpaceInvaders::pressEvent(Button button, unsigned long nowMs)
 {
-    if (this->gameState != GAME_NORMAL)
+    if (this->gameState == GAME_INIT || this->gameState == GAME_OVER || this->gameState == GAME_WIN)
     {
-        this->monsters.initLevel(level_0, 0, 0, 6, 4, 100);
+        this->setGameState(GAME_SHOW_LEVEL, nowMs);
+    }
+    else if (this->gameState == GAME_SHOW_LEVEL)
+    {
+        this->monsters.initLevel(level_0, 0, 0, 6, 4, 100 - this->level * 10);
         this->lasers.reset();
         this->setGameState(GAME_NORMAL, nowMs);
     }
