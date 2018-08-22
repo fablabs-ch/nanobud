@@ -42,16 +42,16 @@ Enjoy and don't hesitate to share your experiences.
 - 1x 9V  to wire adapter
 - 1x Buzzer
 - 1x Resistor 100 Ohms
-- *1x Capacitor 100pF*
-- *1x Shotkky diode	1N5819*
-- *1x Vibrator	3.3V*
-- *1x Resistor	300 Ohms*
-- *1x Resistor	10k*
-- *1x MOSFET	BS170*
-- *1x Mini Joystick*	
-- *1x Battery holder 9V*
-- *1x ScrewVis M2.5 x8mm*	
-- *1 PCB black* 
+- **1x Capacitor 100pF**
+- **1x Shotkky diode	1N5819**
+- **1x Vibrator	3.3V**
+- **1x Resistor	300 Ohms**
+- **1x Resistor	10k**
+- **1x MOSFET	BS170**
+- **1x Mini Joystick**	
+- **1x Battery holder 9V**
+- **1x ScrewVis M2.5 x8mm**	
+- **1 PCB black**
 
 # Software
 It's actually using the sketch from makestuffordie but improvements or differents applications would be appreciated.
