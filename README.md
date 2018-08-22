@@ -54,5 +54,8 @@ Enjoy and don't hesitate to share your experiences.
 - **1 PCB black**
 
 # Software
-It's actually using the sketch from makestuffordie but improvements or differents applications would be appreciated.
+The version 1 is the sketch from makestuffordie
+Black edition need the software made for. sotware/nanobud. It will manage the vibrator and the joystick
+
+Improvements or other applications would be appreciated. Don't hesitate to share it!
 Don't hesitate participate to the project.
