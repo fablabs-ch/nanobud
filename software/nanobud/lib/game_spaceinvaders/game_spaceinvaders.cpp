@@ -46,6 +46,7 @@ void GameSpaceInvaders::loop(unsigned long nowMs, unsigned long dtMs)
             DEBUG_GAME_PRINTLN("Game over");
             this->sound->playEndMusic();
             this->setGameState(GAME_OVER, nowMs);
+            this->level = 1;
         }
         if (this->monsters.hitTest())
         {
@@ -121,7 +122,7 @@ void GameSpaceInvaders::pressEvent(Button button, unsigned long nowMs)
     }
     else if (this->gameState == GAME_SHOW_LEVEL)
     {
-        this->monsters.initLevel(level_0, 0, 0, 6, 4, 100 - this->level * 10);
+        this->monsters.initLevel(level_0, 0, 0, 6, 4, 100 - this->level * 5, this->level/5+1);
         this->lasers.reset();
         this->setGameState(GAME_NORMAL, nowMs);
     }

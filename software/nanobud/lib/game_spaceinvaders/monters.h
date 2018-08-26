@@ -27,7 +27,7 @@ public:
         this->displayHeight = displayHeight;
     }
 
-    void initLevel(const uint8_t *levelData, const int x, const int y, const int width, const int height, int delayMs=100){
+    void initLevel(const uint8_t *levelData, const int x, const int y, const int width, const int height, int delayMs=100, int dy=1){
         this->delayMs = delayMs < 0 ? 0 : delayMs;
         _x = x;
         _y = y;
@@ -39,6 +39,7 @@ public:
         _height = height;
         _currSprite = 0;
         this->nextMove = 0;
+        _dy = dy;
         memcpy(_levelData, levelData, MAX_COLS * MAX_ROWS);
     }
 
@@ -55,12 +56,12 @@ public:
             if (_x + _left < 0) {
                 _x = -_left;
                 _dx = -_dx;
-                _y++;
+                _y += _dy;
             }
             if (_x + _right >= this->displayWidth) {
                 _x = this->displayWidth - _right - 1;
                 _dx = -_dx;
-                _y++;
+                _y += _dy;
             }
             if (_y + _bottom >= (this->displayHeight-PlayerShip::SHIP_H-1)) {
                 return true;
@@ -156,6 +157,7 @@ private:
     int _right;
     int _bottom;
     int _dx;
+    int _dy;
     uint8_t _currSprite;
     int delayMs;
 };
