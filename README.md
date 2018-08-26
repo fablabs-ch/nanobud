@@ -1,5 +1,5 @@
 <img src="https://github.com/fablabs-ch/nanobud/blob/master/pictures/NanoBud_Logo.png"/>
-<img src="https://github.com/fablabs-ch/nanobud/blob/master/pictures/logo_display.JPG" width="200px"/>
+<img src="https://github.com/fablabs-ch/nanobud/blob/master/pictures/versions.png" width="200px"/>
 
 # Description
 NanoBud is a simple electronic project created for workshops into FabLabs.
@@ -22,6 +22,7 @@ Enjoy and don't hesitate to share your experiences.
 
 # Hardware
 ## Material
+*Version 1*
 - 1x Rotary encoder
 - 1x Arduino Nano
 - 1x OLED screen 0.96" 128x64pix
@@ -30,14 +31,31 @@ Enjoy and don't hesitate to share your experiences.
 - 1x 9V  to wire adapter
 - 1x Buzzer
 - 1x Resistor 100 Ohms
-- 1x Pinheader female 1x4
-- 2x Pinheader female 1x15
+- 1x Female pin header	1x4
 
-## PCB
-Two designs are provided for pcbs printing. 
-You can print only one PCB or you can get the panelization and order many pcb at once. 
-It will reduce the production costs.
+*Black edition*
+- 1x Female pin header	1x4
+- 1x Arduino Nano
+- 1x OLED screen 0.96" 128x64pix
+- 1x micro switch
+- 1x 9V Battery
+- 1x 9V  to wire adapter
+- 1x Buzzer
+- 1x Resistor 100 Ohms
+- **1x Capacitor 100pF**
+- **1x Shotkky diode	1N5819**
+- **1x Vibrator	3.3V**
+- **1x Resistor	300 Ohms**
+- **1x Resistor	10k**
+- **1x MOSFET	BS170**
+- **1x Mini Joystick**	
+- **1x Battery holder 9V**
+- **1x ScrewVis M2.5 x8mm**	
+- **1 PCB black**
 
 # Software
-It's actually using the sketch from makestuffordie but improvements or differents applications would be appreciated.
+The version 1 is the sketch from makestuffordie
+Black edition need the software made for. sotware/nanobud. It will manage the vibrator and the joystick
+
+Improvements or other applications would be appreciated. Don't hesitate to share it!
 Don't hesitate participate to the project.
