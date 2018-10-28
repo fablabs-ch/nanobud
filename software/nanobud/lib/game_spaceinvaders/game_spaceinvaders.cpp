@@ -100,14 +100,14 @@ void GameSpaceInvaders::repeatPressEvent(Button button, unsigned long nowMs)
     {
         switch (button)
         {
-        case TOP:
-        case CENTER:
+        case BT_UP:
+        case BT_CENTER:
             this->fire();
             break;
-        case RIGHT:
+        case BT_RIGHT:
             this->move(5);
             break;
-        case LEFT:
+        case BT_LEFT:
             this->move(-5);
             break;
         }

@@ -5,18 +5,25 @@
 #include <input.h>
 #include <sound.h>
 #include <vibrator.h>
-#include <game_spaceinvaders.h>
+
+#if GAME == GAME_SPACE_INVADERS
+    #include <game_spaceinvaders.h>
+#elif GAME == GAME_SNAKE
+    #include <game_snake.h>
+#endif
 
 U8GLIB_SSD1306_128X64 display(U8G_I2C_OPT_NONE); // I2C: SCL=A5,SDA=A4
 
 Vibrator vibrator(PIN_VIBRATOR);
 Sound sound(PIN_BUZZER);
-GameSpaceInvaders game(&display, &sound, &vibrator);
-Input input(PIN_CENTER, PIN_LEFT, PIN_RIGHT, PIN_TOP, PIN_BOTTOM, &game);
 
-// void encoderChange(){
-//     input.changeDetected();
-// }
+#if GAME == GAME_SPACE_INVADERS
+    GameSpaceInvaders game(&display, &sound, &vibrator);
+#elif GAME == GAME_SNAKE
+    GameSnake game(&display, &sound, &vibrator);
+#endif
+
+Input input(PIN_CENTER, PIN_LEFT, PIN_RIGHT, PIN_TOP, PIN_BOTTOM, &game);
 
 unsigned long lastLoop = 0;
 
@@ -30,9 +37,6 @@ void setup()
     sound.init();
     vibrator.init();
     game.init();
-
-    // attachInterrupt(0, encoderChange, CHANGE);
-    // attachInterrupt(1, encoderChange, CHANGE);
 }
 
 void loop()

@@ -5,11 +5,11 @@
 #define DELAY_BEFORE_REPEAT_MS 150
 
 typedef enum button{
-    CENTER,
-    RIGHT,
-    LEFT,
-    TOP,
-    BOTTOM
+    BT_CENTER,
+    BT_RIGHT,
+    BT_LEFT,
+    BT_UP,
+    BT_DOWN
 } Button;
 
 class InputListener {

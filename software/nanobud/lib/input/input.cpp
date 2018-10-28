@@ -10,11 +10,11 @@ Input::Input(int pinCenter, int pinLeft, int pinRight, int pinTop, int pinBottom
 	// this->timeButtonDown = 0;
 	// this->ignoreNextRelease = false;
 	// this->antiReboundMs = 0;
-    this->buttons[0].construct(pinCenter, CENTER, listener);
-    this->buttons[1].construct(pinRight, RIGHT, listener);
-    this->buttons[2].construct(pinLeft, LEFT, listener);
-    this->buttons[3].construct(pinTop, TOP, listener);
-    this->buttons[4].construct(pinBottom, BOTTOM, listener);
+    this->buttons[0].construct(pinCenter, BT_CENTER, listener);
+    this->buttons[1].construct(pinRight, BT_RIGHT, listener);
+    this->buttons[2].construct(pinLeft, BT_LEFT, listener);
+    this->buttons[3].construct(pinTop, BT_UP, listener);
+    this->buttons[4].construct(pinBottom, BT_DOWN, listener);
 }
 
 void Input::init(){

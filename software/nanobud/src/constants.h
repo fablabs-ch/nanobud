@@ -1,3 +1,8 @@
+#define GAME_SPACE_INVADERS 1
+#define GAME_SNAKE 2
+
+// Choose your game
+#define GAME GAME_SNAKE
 
 
 #define PIN_VIBRATOR 8
