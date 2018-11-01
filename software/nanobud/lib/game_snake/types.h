@@ -3,12 +3,14 @@
 
 #include <Arduino.h>
 
+
+#define SNAKE_MAX_X 16
+#define SNAKE_MAX_Y 8
+
 enum GameSnakeState
 {
     GAME_INIT,
-    GAME_SHOW_LEVEL,
     GAME_NORMAL,
-    GAME_WIN,
     GAME_OVER
 };
 

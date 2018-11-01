@@ -4,7 +4,7 @@
 #include <U8glib.h>
 #include "types.h"
 
-#define DEBUG_GAME_SNAKE
+// #define DEBUG_GAME_SNAKE
 
 #ifdef DEBUG_GAME_SNAKE
 #define DEBUG_GAME_SNAKE_PRINT(x) Serial.print(x)
@@ -14,14 +14,12 @@
 #define DEBUG_GAME_SNAKE_PRINTLN(x)
 #endif
 
-// 16x8 = 128
-
-#define SNAKE_MAX_X 16
-#define SNAKE_MAX_Y 8
-
 class Snake
 {
   public:
+    Direction snakePresent[SNAKE_MAX_X][SNAKE_MAX_Y];
+    Position headPosition;
+
     Snake()
     {
     }
@@ -33,19 +31,22 @@ class Snake
 
     void reset()
     {
-        memset(this->snakePresent, 0, 16 * 8);
-        this->snakePresent[0][2] = DIR_RIGHT;
-        this->snakePresent[1][2] = DIR_RIGHT;
-        this->snakePresent[2][2] = DIR_RIGHT;
-        this->snakePresent[3][2] = DIR_RIGHT;
+        for (int i = 0; i < SNAKE_MAX_X; i++)
+        {
+            for (int j = 0; j < SNAKE_MAX_Y; j++)
+            {
+                this->snakePresent[i][j] = DIR_NONE;
+            }
+        }
         this->snakePresent[4][2] = DIR_RIGHT;
         this->snakePresent[5][2] = DIR_RIGHT;
         this->snakePresent[6][2] = DIR_RIGHT;
         this->snakePresent[7][2] = DIR_RIGHT;
         this->snakePresent[8][2] = DIR_RIGHT;
         this->snakePresent[9][2] = DIR_HEAD;
-        this->tailPosition = {.x = 2, .y = 2};
+        this->tailPosition = {.x = 4, .y = 2};
         this->headPosition = {.x = 9, .y = 2};
+        this->currentDirection = DIR_RIGHT;
     }
 
     Position getNextPosition(Position from, Direction direction)
@@ -61,18 +62,24 @@ class Snake
         }
         else if (direction == DIR_UP)
         {
-            to.y--;
-            if (to.y <= 0)
+            if (to.y == 0)
             {
                 to.y = SNAKE_MAX_Y - 1;
+            }
+            else
+            {
+                to.y--;
             }
         }
         else if (direction == DIR_LEFT)
         {
-            to.x--;
-            if (to.x <= 0)
+            if (to.x == 0)
             {
                 to.x = SNAKE_MAX_X - 1;
+            }
+            else
+            {
+                to.x--;
             }
         }
         else if (direction == DIR_RIGHT)
@@ -86,21 +93,46 @@ class Snake
         return to;
     }
 
-    void step(unsigned long dtMs)
+    bool step(unsigned long dtMs)
     {
         this->nextMove -= min(dtMs, this->nextMove);
         if (this->nextMove == 0)
         {
-            this->nextMove = 2000;
+            this->nextMove = 400;
 
-            Position nextTailPosition = this->getNextPosition(this->tailPosition, this->snakePresent[this->tailPosition.x][this->tailPosition.y]);
-            this->snakePresent[this->tailPosition.x][this->tailPosition.y] = DIR_NONE;
-            this->tailPosition = nextTailPosition;
+            if (!shouldGrow)
+            {
+                Position nextTailPosition = this->getNextPosition(this->tailPosition, this->snakePresent[this->tailPosition.x][this->tailPosition.y]);
+                this->snakePresent[this->tailPosition.x][this->tailPosition.y] = DIR_NONE;
+                this->tailPosition = nextTailPosition;
+            }
+            else
+            {
+                this->shouldGrow = false;
+            }
 
             Position nextHeadPosition = this->getNextPosition(this->headPosition, this->currentDirection);
-            this->snakePresent[this->headPosition.x][this->headPosition.y] = this->currentDirection;
-            this->snakePresent[nextHeadPosition.x][nextHeadPosition.y] = DIR_HEAD;
-            this->headPosition = nextHeadPosition;
+            Direction oldNextDir = this->snakePresent[nextHeadPosition.x][nextHeadPosition.y];
+
+            if (oldNextDir == DIR_NONE)
+            {
+                // not obstacle
+                this->snakePresent[this->headPosition.x][this->headPosition.y] = this->currentDirection;
+                this->snakePresent[nextHeadPosition.x][nextHeadPosition.y] = DIR_HEAD;
+                this->headPosition = nextHeadPosition;
+            }
+            else
+            {
+                DEBUG_GAME_SNAKE_PRINT("next: x=");
+                DEBUG_GAME_SNAKE_PRINT(nextHeadPosition.x);
+                DEBUG_GAME_SNAKE_PRINT(" y=");
+                DEBUG_GAME_SNAKE_PRINT(nextHeadPosition.y);
+                DEBUG_GAME_SNAKE_PRINT(" dir=");
+                DEBUG_GAME_SNAKE_PRINT(oldNextDir);
+                DEBUG_GAME_SNAKE_PRINTLN();
+                // we eat ourself...
+                return false;
+            }
 
             DEBUG_GAME_SNAKE_PRINT("HEAD: x=");
             DEBUG_GAME_SNAKE_PRINT(nextHeadPosition.x);
@@ -109,6 +141,7 @@ class Snake
             DEBUG_GAME_SNAKE_PRINTLN();
             this->printNext = true;
         }
+        return true;
     }
 
     void draw(U8GLIB *display)
@@ -168,12 +201,16 @@ class Snake
         }
     }
 
+    void grow()
+    {
+        this->shouldGrow = true;
+    }
+
   private:
+    bool shouldGrow = false;
     unsigned long nextMove = 0;
     Direction currentDirection = DIR_RIGHT;
 
-    Direction snakePresent[SNAKE_MAX_X][SNAKE_MAX_Y];
-    Position headPosition;
     Position tailPosition;
 
     bool printNext = false;

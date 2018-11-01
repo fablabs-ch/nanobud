@@ -9,7 +9,7 @@
 
 #include "types.h"
 #include "snake.h"
-
+#include "food.h"
 
 // #define DEBUG_GAME
 
@@ -20,8 +20,6 @@
     #define DEBUG_GAME_PRINT(x)
     #define DEBUG_GAME_PRINTLN(x)
 #endif
-
-
 
 class GameSnake : public InputListener {
 public:
@@ -46,6 +44,9 @@ private:
     enum GameSnakeState gameState = GAME_INIT;
 
     Snake snake;
+    Food food;
+
+    void displayRestart();
 
 };
 #endif
