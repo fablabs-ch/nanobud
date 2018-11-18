@@ -14,7 +14,7 @@
     #include <game_menu.h>
 #endif
 
-U8G2_SSD1306_128X64_NONAME_2_HW_I2C display(U8G2_R0); // I2C: SCL=A5,SDA=A4
+U8G2_SSD1306_128X64_NONAME_1_HW_I2C display(U8G2_R0); // I2C: SCL=A5,SDA=A4
 
 Vibrator vibrator(PIN_VIBRATOR);
 Sound sound(PIN_BUZZER);
