@@ -24,15 +24,15 @@ void GameSpaceInvaders::loop(unsigned long nowMs, unsigned long dtMs)
     {
         this->display->firstPage();
     }
-    if (this->gameState == GAME_INIT)
+    if (this->gameState == GameSpaceInvadersState::GAME_INIT)
     {
         this->displayRestart();
     }
-    else if (this->gameState == GAME_SHOW_LEVEL)
+    else if (this->gameState == GameSpaceInvadersState::GAME_SHOW_LEVEL)
     {
         this->displayLevel();
     }
-    else if (this->gameState == GAME_NORMAL)
+    else if (this->gameState == GameSpaceInvadersState::GAME_NORMAL)
     {
         this->ship.draw(this->display);
         this->lasers.draw(this->display);
@@ -44,18 +44,18 @@ void GameSpaceInvaders::loop(unsigned long nowMs, unsigned long dtMs)
         {
             DEBUG_GAME_PRINTLN("Game over");
             this->sound->playEndMusic();
-            this->setGameState(GAME_OVER, nowMs);
+            this->setGameState(GameSpaceInvadersState::GAME_OVER, nowMs);
             this->level = 1;
         }
         if (this->monsters.hitTest())
         {
             DEBUG_GAME_PRINTLN("Game win");
             this->sound->playEndMusic();
-            this->setGameState(GAME_WIN, nowMs);
+            this->setGameState(GameSpaceInvadersState::GAME_WIN, nowMs);
             this->level++;
         }
     }
-    else if (gameState == GAME_OVER)
+    else if (gameState == GameSpaceInvadersState::GAME_OVER)
     {
         this->display->drawStr(30, 15, "Game over");
     }
@@ -67,7 +67,7 @@ void GameSpaceInvaders::loop(unsigned long nowMs, unsigned long dtMs)
 
 void GameSpaceInvaders::displayRestart()
 {
-    this->display->drawXBMP(0, 0, this->displayWidth, this->displayHeight, (const uint8_t *)splash);
+    this->display->drawXBMP(0, 0, this->displayWidth, this->displayHeight, (const uint8_t *)splash_space_invader);
 }
 
 void GameSpaceInvaders::displayLevel()
@@ -95,7 +95,7 @@ void GameSpaceInvaders::setGameState(enum GameSpaceInvadersState gameState, unsi
 void GameSpaceInvaders::repeatPressEvent(Button button, unsigned long nowMs)
 {
 
-    if (this->gameState == GAME_NORMAL)
+    if (this->gameState == GameSpaceInvadersState::GAME_NORMAL)
     {
         switch (button)
         {
@@ -115,14 +115,14 @@ void GameSpaceInvaders::repeatPressEvent(Button button, unsigned long nowMs)
 
 void GameSpaceInvaders::pressEvent(Button button, unsigned long nowMs)
 {
-    if (this->gameState == GAME_INIT || this->gameState == GAME_OVER || this->gameState == GAME_WIN)
+    if (this->gameState == GameSpaceInvadersState::GAME_INIT || this->gameState == GameSpaceInvadersState::GAME_OVER || this->gameState == GameSpaceInvadersState::GAME_WIN)
     {
-        this->setGameState(GAME_SHOW_LEVEL, nowMs);
+        this->setGameState(GameSpaceInvadersState::GAME_SHOW_LEVEL, nowMs);
     }
-    else if (this->gameState == GAME_SHOW_LEVEL)
+    else if (this->gameState == GameSpaceInvadersState::GAME_SHOW_LEVEL)
     {
         this->monsters.initLevel(level_0, 0, 0, 6, 4, 100 - this->level * 5, this->level/5+1);
         this->lasers.reset();
-        this->setGameState(GAME_NORMAL, nowMs);
+        this->setGameState(GameSpaceInvadersState::GAME_NORMAL, nowMs);
     }
 }

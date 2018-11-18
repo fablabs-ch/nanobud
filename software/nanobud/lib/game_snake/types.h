@@ -7,7 +7,7 @@
 #define SNAKE_MAX_X 16
 #define SNAKE_MAX_Y 8
 
-enum GameSnakeState
+enum class GameSnakeState
 {
     GAME_INIT,
     GAME_NORMAL,

@@ -4,7 +4,7 @@
 #include <Arduino.h>
 #include <sound.h>
 #include <vibrator.h>
-#include <inputlistener.h>
+#include <game.h>
 #include <U8g2lib.h>
 
 #include "types.h"
@@ -21,7 +21,7 @@
     #define DEBUG_GAME_PRINTLN(x)
 #endif
 
-class GameSnake : public InputListener {
+class GameSnake : public Game {
 public:
     GameSnake(U8G2* display, Sound* sound, Vibrator* vibrator);
 
@@ -41,7 +41,7 @@ private:
     int displayHeight;
 
     unsigned long gameStateLastChange;
-    enum GameSnakeState gameState = GAME_INIT;
+    enum GameSnakeState gameState = GameSnakeState::GAME_INIT;
 
     Snake snake;
     Food food;

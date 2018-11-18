@@ -25,11 +25,11 @@ void GameSnake::loop(unsigned long nowMs, unsigned long dtMs)
 
     // TODO Only in normal mode
 
-    if (this->gameState == GAME_INIT)
+    if (this->gameState == GameSnakeState::GAME_INIT)
     {
         this->displayRestart();
     }
-    else if (this->gameState == GAME_NORMAL)
+    else if (this->gameState == GameSnakeState::GAME_NORMAL)
     {
         // TODO check food
         // TODO check hits
@@ -49,12 +49,12 @@ void GameSnake::loop(unsigned long nowMs, unsigned long dtMs)
         }
         else
         {
-            this->gameState = GAME_OVER;
+            this->gameState = GameSnakeState::GAME_OVER;
             this->sound->playEndMusic();
             this->vibrator->playEndMusic();
         }
     }
-    else if (gameState == GAME_OVER)
+    else if (gameState == GameSnakeState::GAME_OVER)
     {
         this->display->drawStr(30, 15, "Game over");
     }
@@ -73,13 +73,13 @@ void GameSnake::repeatPressEvent(Button button, unsigned long nowMs)
 
 void GameSnake::pressEvent(Button button, unsigned long nowMs)
 {
-    if (this->gameState == GAME_INIT || this->gameState == GAME_OVER)
+    if (this->gameState == GameSnakeState::GAME_INIT || this->gameState == GameSnakeState::GAME_OVER)
     {
-        this->gameState = GAME_NORMAL;
+        this->gameState = GameSnakeState::GAME_NORMAL;
         this->snake.reset();
         this->food.reset();
     }
-    else if (this->gameState == GAME_NORMAL)
+    else if (this->gameState == GameSnakeState::GAME_NORMAL)
     {
         switch (button)
         {
