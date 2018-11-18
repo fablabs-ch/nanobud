@@ -15,7 +15,7 @@ void GameSpaceInvaders::init()
 
     this->monsters.initLevel(level_0, 0, 0, 6, 4, 100);
 
-    this->display->setFont(u8g_font_unifont);
+    this->display->setFont(u8g2_font_profont15_tr);
 }
 
 void GameSpaceInvaders::loop(unsigned long nowMs, unsigned long dtMs)

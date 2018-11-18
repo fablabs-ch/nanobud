@@ -10,7 +10,7 @@ void GameSnake::init()
     this->displayWidth = this->display->getWidth();
     this->displayHeight = this->display->getHeight();
 
-    this->display->setFont(u8g_font_unifont);
+    this->display->setFont(u8g2_font_profont15_tr);
 
     this->snake.init();
     this->food.init(&this->snake);
