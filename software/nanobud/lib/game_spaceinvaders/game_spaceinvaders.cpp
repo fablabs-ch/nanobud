@@ -1,7 +1,6 @@
 #include "game_spaceinvaders.h"
 
-GameSpaceInvaders::GameSpaceInvaders(U8GLIB *display, Sound *sound, Vibrator *vibrator)
-    : display(display), sound(sound), vibrator(vibrator)
+GameSpaceInvaders::GameSpaceInvaders(U8G2 *display, Sound *sound, Vibrator *vibrator): display(display), sound(sound), vibrator(vibrator)
 {
 }
 

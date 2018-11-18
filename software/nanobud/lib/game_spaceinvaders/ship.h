@@ -1,7 +1,7 @@
 #ifndef _GAME_SPACEINVADERS_SHIP_H
 #define _GAME_SPACEINVADERS_SHIP_H
 
-#include <U8glib.h>
+#include <U8g2lib.h>
 
 class PlayerShip {
 public:
@@ -19,7 +19,7 @@ public:
          this->y = displayHeight-SHIP_H-1;
      }
 
-    void draw(U8GLIB* display) {
+    void draw(U8G2* display) {
         display->drawHLine(this->x - 1, this->y, 3);
         display->drawHLine(this->x - 1, this->y + 1, 3);
         display->drawHLine(this->x - (SHIP_RAD - 1), this->y + 2, SHIP_W - 2);

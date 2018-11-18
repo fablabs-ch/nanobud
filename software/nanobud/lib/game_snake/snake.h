@@ -1,7 +1,7 @@
 #ifndef _GAME_SNAKE_SNAKE_H
 #define _GAME_SNAKE_SNAKE_H
 
-#include <U8glib.h>
+#include <U8g2lib.h>
 #include "types.h"
 
 // #define DEBUG_GAME_SNAKE
@@ -144,7 +144,7 @@ class Snake
         return true;
     }
 
-    void draw(U8GLIB *display)
+    void draw(U8G2 *display)
     {
         Position pos = this->tailPosition;
         Direction dir = DIR_NONE;

@@ -1,7 +1,7 @@
 #ifndef _GAME_SPACEINVADERS_LASER_H
 #define _GAME_SPACEINVADERS_LASER_H
 
-#include <U8glib.h>
+#include <U8g2lib.h>
 
 class Lasers {
 public:
@@ -32,7 +32,7 @@ public:
         }
     }
 
-    void draw(U8GLIB* display) {
+    void draw(U8G2* display) {
         for (int i = 0; i < MAX_LASERS; i++) {
             uint8_t y = _y[i];
             if (y != INACTIVE_LASER) {
