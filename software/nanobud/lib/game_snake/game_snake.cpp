@@ -1,6 +1,6 @@
 #include "game_snake.h"
 
-GameSnake::GameSnake(U8GLIB *display, Sound *sound, Vibrator *vibrator)
+GameSnake::GameSnake(U8G2 *display, Sound *sound, Vibrator *vibrator)
     : display(display), sound(sound), vibrator(vibrator)
 {
 }

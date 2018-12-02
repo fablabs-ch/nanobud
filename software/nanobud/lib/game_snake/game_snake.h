@@ -5,7 +5,7 @@
 #include <sound.h>
 #include <vibrator.h>
 #include <inputlistener.h>
-#include <U8glib.h>
+#include <U8g2lib.h>
 
 #include "types.h"
 #include "snake.h"
@@ -23,7 +23,7 @@
 
 class GameSnake : public InputListener {
 public:
-    GameSnake(U8GLIB* display, Sound* sound, Vibrator* vibrator);
+    GameSnake(U8G2* display, Sound* sound, Vibrator* vibrator);
 
     void init();
     void loop(unsigned long nowMs, unsigned long dtMs);
@@ -33,7 +33,7 @@ public:
     void pressEvent(Button button, unsigned long nowMs);
 
 private:
-    U8GLIB* display;
+    U8G2* display;
     Sound* sound;
     Vibrator* vibrator;
 

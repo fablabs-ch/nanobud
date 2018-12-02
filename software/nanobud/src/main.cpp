@@ -1,5 +1,5 @@
 #include <Arduino.h>
-#include <U8glib.h>
+#include <U8g2lib.h>
 
 #include "constants.h"
 #include <input.h>
@@ -12,7 +12,7 @@
     #include <game_snake.h>
 #endif
 
-U8GLIB_SSD1306_128X64 display(U8G_I2C_OPT_NONE); // I2C: SCL=A5,SDA=A4
+U8G2_SSD1306_128X64_NONAME_2_HW_I2C display(U8G2_R0); // I2C: SCL=A5,SDA=A4
 
 Vibrator vibrator(PIN_VIBRATOR);
 Sound sound(PIN_BUZZER);
@@ -32,7 +32,7 @@ void setup()
     Serial.begin(115200);
 
     Serial.println("start");
-
+    display.begin();
     input.init();
     sound.init();
     vibrator.init();

@@ -1,7 +1,7 @@
 #ifndef _GAME_SNAKE_FOOD_H
 #define _GAME_SNAKE_FOOD_H
 
-#include <U8glib.h>
+#include <U8g2lib.h>
 #include "types.h"
 #include "snake.h"
 
@@ -67,7 +67,7 @@ class Food
         return this->position.x == this->snake->headPosition.x && this->position.y == this->snake->headPosition.y;
     }
 
-    void draw(U8GLIB *display)
+    void draw(U8G2 *display)
     {
         display->drawCircle(this->position.x * 8 + 4, this->position.y * 8 + 4, 3);
         display->drawPixel(this->position.x * 8 + 4, this->position.y * 8 + 4);
